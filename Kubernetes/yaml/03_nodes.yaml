@@ -104,14 +104,14 @@ metadata:
     app: miner
     name: keystore-config-miner04
 data:
-  UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f: |-
+  UTC--2021-01-31T19-17-12.008163663Z--bfd794534f9db519172f0a0cc2d3324fa9851a40: |-
     {
-      "address": "6660c0c8a4608dbf3a974193794cfbae54443b0f",
+      "address": "bfd794534f9db519172f0a0cc2d3324fa9851a40",
       "crypto": {
         "cipher": "aes-128-ctr",
-        "ciphertext": "85ef9dcc88b82862ef5e9d445ffd386cb2a22079cfcfeede5b6fbfb606cb21e4",
+        "ciphertext": "61c5c8ecf267afcf4a9459778f99e73b5d67b44aab513e240129e50f7f8e4b68",
         "cipherparams": {
-          "iv": "271cb2a1aff6e9c0612b0b03731e20a0"
+          "iv": "d29052bdd46982d80e74fb894b634992"
         },
         "kdf": "scrypt",
         "kdfparams": {
@@ -119,11 +119,43 @@ data:
           "n": 262144,
           "p": 1,
           "r": 8,
-          "salt": "a96f2f0b6fc39e2d0b77014725884bd046d22c2ea3fafcf6cf8bff79f0880cad"
+          "salt": "27c79afaa1706a171907a265fe52d344dafed17544b0e44c2b854d790d7b847a"
         },
-        "mac": "39c895115cc4a0be034c2232e6d5ab084a16010fc9fade26f4e663403cfbcb4b"
+        "mac": "e757dc252bca1637d519e09b1b4505ecd7a68533171698fee6524e0c653881b6"
       },
-      "id": "cb62ef9d-4dd3-48c2-abb7-511c79c50916",
+      "id": "f485d992-6938-4c42-a8d5-c3be84f777d9",
+      "version": 3
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keystore-config-miner05
+  namespace: default
+  labels:
+    app: miner
+    name: keystore-config-miner05
+data:
+  UTC--2021-01-31T19-17-15.757919177Z--e96cc8725584836e8e5d4ec098cbb9be84ba49e7: |-
+    {
+      "address": "e96cc8725584836e8e5d4ec098cbb9be84ba49e7",
+      "crypto": {
+        "cipher": "aes-128-ctr",
+        "ciphertext": "5f7d629aa4890f9b129eefe24d801fc3e968f7c4a4b939479add29dae5bcbe31",
+        "cipherparams": {
+          "iv": "30f8013b7776843f41c2d4be6a86ee5c"
+        },
+        "kdf": "scrypt",
+        "kdfparams": {
+          "dklen": 32,
+          "n": 262144,
+          "p": 1,
+          "r": 8,
+          "salt": "c8b577b88274771056b485cdab6dd19f620268e0ad722f174935bbe700634081"
+        },
+        "mac": "7b7bf18062dc70bfd016c86c030d9538a19f89ed7552551842b397535b1422b4"
+      },
+      "id": "71ad3a4e-2553-41a8-8f3c-86588571e569",
       "version": 3
     }
 ---
@@ -430,6 +462,82 @@ data:
     Host = "0.0.0.0"
     Port = 8080
     Refresh = 3000000000
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gethconfig-miner05
+  namespace: default
+  labels:
+    app: miner
+    name: gethconfig-miner05
+data:
+  gethconfig: |-
+    [Eth]
+    NetworkId = 123456
+    SyncMode = "full"
+    LightPeers = 100
+    DatabaseCache = 768
+    EnablePreimageRecording = false
+    
+    [Eth.Ethash]
+    CacheDir = "ethash"
+    CachesInMem = 2
+    CachesOnDisk = 3
+    DatasetDir = "/root/.ethash"
+    DatasetsInMem = 1
+    DatasetsOnDisk = 2
+    PowMode = 0
+    
+    [Eth.TxPool]
+    Locals = []
+    NoLocals = false
+    Journal = "transactions.rlp"
+    Rejournal = 3600000000000
+    PriceLimit = 1
+    PriceBump = 10
+    AccountSlots = 16
+    GlobalSlots = 4096
+    AccountQueue = 64
+    GlobalQueue = 1024
+    Lifetime = 10800000000000
+    
+    [Eth.GPO]
+    Blocks = 20
+    Percentile = 60
+    
+    [Shh]
+    MaxMessageSize = 1048576
+    MinimumAcceptedPOW = 2e-01
+    
+    [Node]
+    UserIdent = "miner05"
+    DataDir = "/etc/testnet/miner05"
+    IPCPath = "/etc/testnet/miner05/geth.ipc"
+    HTTPHost = "0.0.0.0"
+    HTTPPort = 8545
+    HTTPCors = ["*"]
+    HTTPVirtualHosts = ["*"]
+    HTTPModules = ["db", "eth", "net", "web3", "personal", "miner", "admin", "clique"]
+    WSHost = "0.0.0.0"
+    WSPort = 8546
+    WSOrigins = ["*"]
+    WSModules = ["net", "web3", "eth", "shh"]
+    
+    [Node.P2P]
+    MaxPeers = 25
+    NoDiscovery = false
+    BootstrapNodes = []
+    BootstrapNodesV5 = []
+    StaticNodes = []
+    TrustedNodes = []
+    ListenAddr = ":30303"
+    EnableMsgEvents = false
+    
+    [Dashboard]
+    Host = "0.0.0.0"
+    Port = 8080
+    Refresh = 3000000000
 
 ---
 apiVersion: v1
@@ -556,6 +664,38 @@ spec:
       port: 30303
       targetPort: 30303
     - name: miner04-dashboard
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: miner05-svc
+  namespace: default
+  labels:
+    app: miner
+    tier: backend
+    name: miner05-svc
+spec:
+  selector:
+    app: miner
+    tier: backend
+    name: miner05
+  ports:
+    - name: miner05-jsonrpc
+      protocol: TCP
+      port: 8545
+      targetPort: 8545
+    - name: miner05-wsrpc
+      protocol: TCP
+      port: 8546
+      targetPort: 8546
+    - name: miner05-ipc-discovery
+      protocol: TCP
+      port: 30303
+      targetPort: 30303
+    - name: miner05-dashboard
       protocol: TCP
       port: 8080
       targetPort: 8080
@@ -873,7 +1013,7 @@ spec:
            --dashboard \
            --mine \
            --verbosity 3  \
-           --unlock 0x6660C0c8a4608dBF3A974193794cFBaE54443b0f --allow-insecure-unlock --password /etc/testnet/miner04/password.txt --gasprice '0x0' --targetgaslimit '9000000000000'  \
+           --unlock 0xbFd794534F9dB519172F0A0cC2d3324fa9851a40 --allow-insecure-unlock --password /etc/testnet/miner04/password.txt --gasprice '0x0' --targetgaslimit '9000000000000'  \
            --config /etc/geth/miner04/gethconfig.toml;"
         ports:
           - containerPort: 8545
@@ -886,8 +1026,8 @@ spec:
         - name: miner04-config-persistent-storage
           mountPath: /etc/gethconfigmap/miner04
         - name: keystore-config-persistent-storage
-          mountPath: /etc/testnet/miner04/keystore/UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f
-          subPath: UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f
+          mountPath: /etc/testnet/miner04/keystore/UTC--2021-01-31T19-17-12.008163663Z--bfd794534f9db519172f0a0cc2d3324fa9851a40
+          subPath: UTC--2021-01-31T19-17-12.008163663Z--bfd794534f9db519172f0a0cc2d3324fa9851a40
         - name: geth-boot-node-persistent-storage
           mountPath: /etc/testnet/bootnode
         - name: genesis-config-persistent-storage
@@ -898,8 +1038,8 @@ spec:
         configMap:
           name: keystore-config-miner04
           items:
-          - key: UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f
-            path: UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f
+          - key: UTC--2021-01-31T19-17-12.008163663Z--bfd794534f9db519172f0a0cc2d3324fa9851a40
+            path: UTC--2021-01-31T19-17-12.008163663Z--bfd794534f9db519172f0a0cc2d3324fa9851a40
       - name: geth-boot-node-persistent-storage
         hostPath:
           path: /var/lib/docker/geth-storage/bootnode
@@ -915,6 +1055,96 @@ spec:
       - name: miner04-config-persistent-storage
         configMap:
           name: gethconfig-miner04
+          items:
+          - key: gethconfig
+            path: gethconfig.toml
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: default
+  labels:
+    app: miner
+    tier: backend
+    name: geth-miner05
+  name: geth-miner05
+spec:
+  selector:
+    matchLabels:
+      app: miner
+  replicas: 1
+  serviceName: geth-miner05
+  template:
+    metadata:
+      name: geth-miner05
+      labels:
+        app: miner
+        tier: backend
+        name: miner05
+    spec:
+      containers:
+      - name: miner05-container
+        image: ethereum/client-go:v1.9.0
+        imagePullPolicy: Always
+        command: [ "sh" ]
+        args:
+        - "-cx"
+        - "/usr/local/bin/geth --datadir /etc/testnet/miner05 init /etc/geth/genesis/genesis-geth.json;
+           touch /etc/testnet/miner05/genesis_created;
+           echo 0987654321 > /etc/testnet/miner05/password.txt;
+           mkdir -p /etc/geth/miner05;
+           cp /etc/gethconfigmap/miner05/gethconfig.toml /etc/geth/miner05;
+           ENODE=$(cat /etc/testnet/bootnode/enode.address);
+           ENODE_ESC=$(echo $ENODE | sed 's@//@\\\\/\\\\/@g');
+           sed -i \"s/BootstrapNodes = \\[\\]/BootstrapNodes = [\\\"$ENODE_ESC\\\"]/g\" /etc/geth/miner05/gethconfig.toml;
+           sed -i \"s/BootstrapNodesV5 = \\[\\]/BootstrapNodesV5 = [\\\"$ENODE_ESC\\\"]/g\" /etc/geth/miner05/gethconfig.toml;
+           /usr/local/bin/geth \
+           --dashboard \
+           --mine \
+           --verbosity 3  \
+           --unlock 0xe96cC8725584836e8E5D4Ec098CBb9be84BA49e7 --allow-insecure-unlock --password /etc/testnet/miner05/password.txt --gasprice '0x0' --targetgaslimit '9000000000000'  \
+           --config /etc/geth/miner05/gethconfig.toml;"
+        ports:
+          - containerPort: 8545
+          - containerPort: 8546
+            protocol: UDP
+          - containerPort: 30303
+        volumeMounts:
+        - name: miner05-persistent-storage
+          mountPath: /etc/testnet/miner05
+        - name: miner05-config-persistent-storage
+          mountPath: /etc/gethconfigmap/miner05
+        - name: keystore-config-persistent-storage
+          mountPath: /etc/testnet/miner05/keystore/UTC--2021-01-31T19-17-15.757919177Z--e96cc8725584836e8e5d4ec098cbb9be84ba49e7
+          subPath: UTC--2021-01-31T19-17-15.757919177Z--e96cc8725584836e8e5d4ec098cbb9be84ba49e7
+        - name: geth-boot-node-persistent-storage
+          mountPath: /etc/testnet/bootnode
+        - name: genesis-config-persistent-storage
+          mountPath: /etc/geth/genesis/genesis-geth.json
+          subPath: genesis-geth.json
+      volumes:
+      - name: keystore-config-persistent-storage
+        configMap:
+          name: keystore-config-miner05
+          items:
+          - key: UTC--2021-01-31T19-17-15.757919177Z--e96cc8725584836e8e5d4ec098cbb9be84ba49e7
+            path: UTC--2021-01-31T19-17-15.757919177Z--e96cc8725584836e8e5d4ec098cbb9be84ba49e7
+      - name: geth-boot-node-persistent-storage
+        hostPath:
+          path: /var/lib/docker/geth-storage/bootnode
+      - name: genesis-config-persistent-storage
+        configMap:
+          name: genesis-config
+          items:
+          - key: genesis-geth.json
+            path: genesis-geth.json
+      - name: miner05-persistent-storage
+        persistentVolumeClaim:
+          claimName: volume-miner05
+      - name: miner05-config-persistent-storage
+        configMap:
+          name: gethconfig-miner05
           items:
           - key: gethconfig
             path: gethconfig.toml

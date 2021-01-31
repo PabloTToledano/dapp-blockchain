@@ -5,7 +5,7 @@ require 'yaml'
 require 'erb'
 
 # generic variables
-@config = YAML.load_file('environment.yaml')
+@config = YAML.load_file('environments/environment.yaml')
 @nodes = @config['nodes']
 @bootnodes = @config['bootnodes']
 

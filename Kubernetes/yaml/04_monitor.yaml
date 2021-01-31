@@ -97,6 +97,28 @@ data:
           "WS_SECRET"       : "123",
           "VERBOSITY"       : 3
         }
+      },
+      {
+        "name"              : "miner05",
+        "cwd"               : ".",
+        "script"            : "app.js",
+        "log_date_format"   : "YYYY-MM-DD HH:mm Z",
+        "merge_logs"        : false,
+        "watch"             : false,
+        "exec_interpreter"  : "node",
+        "exec_mode"         : "fork_mode",
+        "env":
+        {
+          "NODE_ENV"        : "production",
+          "RPC_HOST"        : "miner05-rpchost",
+          "RPC_PORT"        : "8545",
+          "LISTENING_PORT"  : "30303",
+          "INSTANCE_NAME"   : "miner05",
+          "CONTACT_DETAILS" : "",
+          "WS_SERVER"       : "localhost:3001",
+          "WS_SECRET"       : "123",
+          "VERBOSITY"       : 3
+        }
       }
     ]
 ---
@@ -150,6 +172,7 @@ spec:
            sed -i \"s/miner02-rpchost/$MINER02_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
            sed -i \"s/miner03-rpchost/$MINER03_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
            sed -i \"s/miner04-rpchost/$MINER04_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
+           sed -i \"s/miner05-rpchost/$MINER05_SVC_SERVICE_HOST/g\" /ethmonitor/app.json;
            exit 0;"
         volumeMounts:
         - name: monitor-configmap-volume

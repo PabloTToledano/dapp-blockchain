@@ -54,6 +54,19 @@ status: {}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: volume-miner05
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+status: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name: volume-bootnode
   namespace: default
 spec:
