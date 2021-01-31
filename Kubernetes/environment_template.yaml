@@ -59,20 +59,6 @@ nodes:
       NodeP2P_DiscoveryAddr: 30303
       Dashboard_Port: 8080
       Dashboard_Refresh: 3000000000
-- miner04:
-    k8s:
-      replicas: 1
-    geth:
-      storage_size: 20
-      Eth_Etherbase: "0x0b72b97b42a9ee815c745e0a55f46ec75dfde7b5"
-      Eth_Password: "0987654321"
-      Node_UserIdent: miner04
-      Node_DataDir: /etc/testnet/miner04
-      Node_HTTPPort: 8545
-      Node_WSPort: 8546
-      NodeP2P_DiscoveryAddr: 30303
-      Dashboard_Port: 8080
-      Dashboard_Refresh: 3000000000
 monitor:
   name: monitor
   ws_secret: "123"
@@ -104,7 +90,6 @@ keystore:
     "0xc11ba4c7c24f70e7a581c7daa92eac108099acec": UTC--2019-06-04T13-52-41.551926270Z--c11ba4c7c24f70e7a581c7daa92eac108099acec
     "0x4c92786b90d848eaa3f4ef46918af724a309ae79": UTC--2019-06-04T13-52-48.511656735Z--4c92786b90d848eaa3f4ef46918af724a309ae79
     "0x4e7afbdc9413eeb582b3f1be49d652fa714484da": UTC--2019-06-04T13-52-53.567362092Z--4e7afbdc9413eeb582b3f1be49d652fa714484da
-    "0x0b72b97b42a9ee815c745e0a55f46ec75dfde7b5": keystore-miner04
     "0x2da602397dbcd7b3f3efec474124746e8e913c44": UTC--2019-06-04T13-53-00.073235074Z--2da602397dbcd7b3f3efec474124746e8e913c44
     "0x1e2510200cc63faf248150530d16415a52757f50": UTC--2019-06-04T13-53-06.513321284Z--1e2510200cc63faf248150530d16415a52757f50
 geth:

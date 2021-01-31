@@ -104,14 +104,14 @@ metadata:
     app: miner
     name: keystore-config-miner04
 data:
-  UTC--2021-01-30T20-50-51.545502689Z--3e76a1d12d2658693e3b99c4d7660163678b2b7e: |-
+  UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f: |-
     {
-      "address": "3e76a1d12d2658693e3b99c4d7660163678b2b7e",
+      "address": "6660c0c8a4608dbf3a974193794cfbae54443b0f",
       "crypto": {
         "cipher": "aes-128-ctr",
-        "ciphertext": "e80767a586fe96cf349407e3b8d80ff92e76e5515eaf3ba14706de72f28518c8",
+        "ciphertext": "85ef9dcc88b82862ef5e9d445ffd386cb2a22079cfcfeede5b6fbfb606cb21e4",
         "cipherparams": {
-          "iv": "3ca0ef584f72336844bff960438d9ade"
+          "iv": "271cb2a1aff6e9c0612b0b03731e20a0"
         },
         "kdf": "scrypt",
         "kdfparams": {
@@ -119,13 +119,14 @@ data:
           "n": 262144,
           "p": 1,
           "r": 8,
-          "salt": "307d26eb2c44aabf2a5b6a798d828a5982664c5cc604b14544a0b8a6065273d4"
+          "salt": "a96f2f0b6fc39e2d0b77014725884bd046d22c2ea3fafcf6cf8bff79f0880cad"
         },
-        "mac": "a2d0c3f18a933214aaa9d285214b048397397e7fea1620c6f62e8c326d61fb98"
+        "mac": "39c895115cc4a0be034c2232e6d5ab084a16010fc9fade26f4e663403cfbcb4b"
       },
-      "id": "03b287b2-aac7-4249-91ed-6d72fa0d932f",
+      "id": "cb62ef9d-4dd3-48c2-abb7-511c79c50916",
       "version": 3
-    }---
+    }
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -872,7 +873,7 @@ spec:
            --dashboard \
            --mine \
            --verbosity 3  \
-           --unlock 0x3e76A1D12d2658693E3b99C4D7660163678b2b7E --allow-insecure-unlock --password /etc/testnet/miner04/password.txt --gasprice '0x0' --targetgaslimit '9000000000000'  \
+           --unlock 0x6660C0c8a4608dBF3A974193794cFBaE54443b0f --allow-insecure-unlock --password /etc/testnet/miner04/password.txt --gasprice '0x0' --targetgaslimit '9000000000000'  \
            --config /etc/geth/miner04/gethconfig.toml;"
         ports:
           - containerPort: 8545
@@ -885,8 +886,8 @@ spec:
         - name: miner04-config-persistent-storage
           mountPath: /etc/gethconfigmap/miner04
         - name: keystore-config-persistent-storage
-          mountPath: /etc/testnet/miner04/keystore/UTC--2021-01-30T20-50-51.545502689Z--3e76a1d12d2658693e3b99c4d7660163678b2b7e
-          subPath: UTC--2021-01-30T20-50-51.545502689Z--3e76a1d12d2658693e3b99c4d7660163678b2b7e
+          mountPath: /etc/testnet/miner04/keystore/UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f
+          subPath: UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f
         - name: geth-boot-node-persistent-storage
           mountPath: /etc/testnet/bootnode
         - name: genesis-config-persistent-storage
@@ -897,8 +898,8 @@ spec:
         configMap:
           name: keystore-config-miner04
           items:
-          - key: UTC--2021-01-30T20-50-51.545502689Z--3e76a1d12d2658693e3b99c4d7660163678b2b7e
-            path: UTC--2021-01-30T20-50-51.545502689Z--3e76a1d12d2658693e3b99c4d7660163678b2b7e
+          - key: UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f
+            path: UTC--2021-01-31T11-57-56.972680020Z--6660c0c8a4608dbf3a974193794cfbae54443b0f
       - name: geth-boot-node-persistent-storage
         hostPath:
           path: /var/lib/docker/geth-storage/bootnode

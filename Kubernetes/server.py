@@ -35,6 +35,7 @@ def indent_keystore(keystore_path):
     file.close()
     file = open(keystore_path,'w')
     json.dump(old_keystone,file, indent=2)
+    file.write('\n')
     file.close()
     
 
@@ -80,8 +81,6 @@ def create_miner(server_yaml):
     server_yaml["keystore"]["items"].update(keystore_items_dict)
     write_environment(server_yaml)
     
-def add_miner(server_yaml):
-
 
 def main():
     server_conf = load_environment()
@@ -91,6 +90,7 @@ def main():
 
 def exit():
     print("Thank you for using our system. Bye!")
+    #hay que poner que borre los archivos .toml
     sys.exit(0)
 
 def stdin_write(message, caster):
@@ -109,7 +109,7 @@ def server_menu():
         2 : add_miner,
         3 : remove_miner,
         4 : get_pods,
-        5 : forward_port;
+        5 : forward_port,
         6 : shutdown
     }
 
