@@ -1,0 +1,17 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.network "private_network", ip: "192.168.10.11" 
+  config.vm.hostname = "ethereum"
+  config.vm.synced_folder "poll_dapp/", "/home/vagrant/poll_dapp/", create:true, owner:"vagrant", group:"vagrant"
+  config.vm.synced_folder "src/", "/home/vagrant/src/", create:true, owner:"vagrant", group:"vagrant"
+  config.vm.synced_folder "tests/", "/home/vagrant/tests/", create:true, owner:"vagrant", group:"vagrant"
+  config.vm.synced_folder "", "/home/vagrant", type: "rsync", rsync__args: ["-r", "--include=requirements.txt", "--exclude=*"]
+  config.vm.provision :shell, path: "bootstrap.sh"
+  
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 6144
+    v.cpus = 2
+  end
+  
+end

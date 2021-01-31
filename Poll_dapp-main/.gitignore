@@ -1,0 +1,4 @@
+.vagrant 
+ubuntu*
+poll_dapp/build
+__pycache__
