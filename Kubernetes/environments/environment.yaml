@@ -51,9 +51,7 @@ keystore:
     '0x2da602397dbcd7b3f3efec474124746e8e913c44': UTC--2019-06-04T13-53-00.073235074Z--2da602397dbcd7b3f3efec474124746e8e913c44
     '0x4c92786b90d848eaa3f4ef46918af724a309ae79': UTC--2019-06-04T13-52-48.511656735Z--4c92786b90d848eaa3f4ef46918af724a309ae79
     '0x4e7afbdc9413eeb582b3f1be49d652fa714484da': UTC--2019-06-04T13-52-53.567362092Z--4e7afbdc9413eeb582b3f1be49d652fa714484da
-    '0xbFd794534F9dB519172F0A0cC2d3324fa9851a40': UTC--2021-01-31T19-17-12.008163663Z--bfd794534f9db519172f0a0cc2d3324fa9851a40
     '0xc11ba4c7c24f70e7a581c7daa92eac108099acec': UTC--2019-06-04T13-52-41.551926270Z--c11ba4c7c24f70e7a581c7daa92eac108099acec
-    '0xe96cC8725584836e8E5D4Ec098CBb9be84BA49e7': UTC--2021-01-31T19-17-15.757919177Z--e96cc8725584836e8e5d4ec098cbb9be84ba49e7
   secret: false
 monitor:
   k8s:
@@ -106,34 +104,6 @@ nodes:
       Node_DataDir: /etc/testnet/miner03
       Node_HTTPPort: 8545
       Node_UserIdent: miner03
-      Node_WSPort: 8546
-      storage_size: 20
-    k8s:
-      replicas: 1
-- miner04:
-    geth:
-      Dashboard_Port: 8080
-      Dashboard_Refresh: 3000000000
-      Eth_Etherbase: '0xbFd794534F9dB519172F0A0cC2d3324fa9851a40'
-      Eth_Password: 0987654321
-      NodeP2P_DiscoveryAddr: 30303
-      Node_DataDir: /etc/testnet/miner04
-      Node_HTTPPort: 8545
-      Node_UserIdent: miner04
-      Node_WSPort: 8546
-      storage_size: 20
-    k8s:
-      replicas: 1
-- miner05:
-    geth:
-      Dashboard_Port: 8080
-      Dashboard_Refresh: 3000000000
-      Eth_Etherbase: '0xe96cC8725584836e8E5D4Ec098CBb9be84BA49e7'
-      Eth_Password: 0987654321
-      NodeP2P_DiscoveryAddr: 30303
-      Node_DataDir: /etc/testnet/miner05
-      Node_HTTPPort: 8545
-      Node_UserIdent: miner05
       Node_WSPort: 8546
       storage_size: 20
     k8s:

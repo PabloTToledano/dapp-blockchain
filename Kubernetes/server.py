@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+import sys
 import json
 import yaml
 import copy
@@ -14,6 +15,7 @@ PATH_ENVIRONMENT_DEL = 'environments/environment_del.yaml'
 PATH_BLOCKCHAININIT = './blockchainit'
 PATH_BLOCKCHAINDEL = './blockchaindel' 
 PORT_FORWARD = None
+minikube = False
 
 def load_environment(environment_path):
     with open(environment_path) as file:
@@ -35,26 +37,37 @@ def create_k8s_yaml_del():
     os.system(PATH_BLOCKCHAINDEL)
 
 def start_minikube(server_yaml):
-    os.system("minikube start --cpus 4 --memory 4096 --kubernetes-version v1.14.2 --driver=docker")
-    os.system("minikube kubectl -- get pods -A")
-    write_environment(server_yaml)
-    create_k8s_yaml()
-    apply_yamls()
-    
+    global minikube
+    if minikube:
+        print("🤦‍♀️ Minikube is already running 🤦‍♂️")
+    else:
+        os.system("minikube start --cpus 4 --memory 4096 --kubernetes-version v1.14.2 --driver=docker")
+        os.system("minikube kubectl -- get pods -A")
+        write_environment(server_yaml)
+        create_k8s_yaml()
+        apply_yamls()
+        minikube = True
+        
+        
 def stop_minikube():
+    global minikube
     os.system('minikube delete')
+    minikube = False
 
 def get_pods():
-    os.system('kubectl get pods')
+    if minikube:
+        os.system('kubectl get pods')
+    else:
+        print("🙎🏻‍♀️ Start Minikube first 🙎🏻‍♂️")
 
 def forward_ports():
-        #subprocesso para hacer el kubectl port fordward
-    #PORT_FORWARD[0] = subprocess.Popen(["kubectl", "port-forward", "monitor-0", "3001:3001"])
-    #PORT_FORWARD.append(subprocess.Popen(["kubectl", "port-forward", "geth-miner01-0", "8545:8545"]))
-
-    PORT_FORWARD = [subprocess.Popen(["kubectl", "port-forward", "monitor-0", "3001:3001"],stdout=subprocess.DEVNULL),
-    subprocess.Popen(["kubectl", "port-forward", "geth-miner01-0", "8545:8545"],stdout=subprocess.DEVNULL)]
-    print("Forwarding Done")
+    global minikube
+    if minikube:
+        PORT_FORWARD = [subprocess.Popen(["kubectl", "port-forward", "monitor-0", "3001:3001"],stdout=subprocess.DEVNULL),
+        subprocess.Popen(["kubectl", "port-forward", "geth-miner01-0", "8545:8545"],stdout=subprocess.DEVNULL)]
+        print("🤭 Forwarding Done")
+    else:
+        print("🙎🏻‍♀️ Start Minikube first 🙎🏻‍♂️")
 
 def apply_yamls():
     os.system("kubectl apply -f yaml/")
@@ -77,7 +90,8 @@ def clean_up():
                 os.remove(file_path)
             if 'UTC--2021' in file_path:
                 os.remove(file_path)
-    os.remove(PATH_ENVIRONMENT_DEL)
+    if os.path.exists(PATH_ENVIRONMENT_DEL):
+        os.remove(PATH_ENVIRONMENT_DEL)
 
 def indent_keystore(keystore_path):
     file = open(keystore_path)
@@ -99,6 +113,7 @@ def create_eth_account():
     return etherbase_miner, path_keystore
     
 def remove_miner(server_yaml):
+    global minikube
     #Recoger nodo y keystore del ultimo miner
     n_miner=server_yaml["nodes"][-1]
     info_miner = n_miner[list(n_miner.keys())[0]]
@@ -120,14 +135,17 @@ def remove_miner(server_yaml):
     del server_yaml['nodes'][-1]    
     del server_yaml['keystore']['items'][eth_etherbase]
    
-  
-
     write_environment_del(cpy_server_yaml)
     write_environment(server_yaml)
-    create_k8s_yaml_del()
-    apply_del_yamls()
+    if minikube:  
+        create_k8s_yaml() 
+        create_k8s_yaml_del()
+        apply_del_yamls()
+    print("👋💀 Node removed 💀👋")
+
 
 def create_miner(server_yaml):
+    global minikube
     etherbase_miner, path_keystore = create_eth_account()
     
     n_miner = int(list(server_yaml["nodes"][-1].keys())[0][5:]) + 1 
@@ -158,12 +176,14 @@ def create_miner(server_yaml):
     server_yaml["nodes"].append(miner_node_dict)
     server_yaml["keystore"]["items"].update(keystore_items_dict)
     write_environment(server_yaml)
-    create_k8s_yaml()
-    apply_yamls()    
+    if minikube:
+        create_k8s_yaml()
+        apply_yamls()
+    print("👌 Node added 👌")    
 
 def exit():
     stop_minikube()
-    print("Thank you for using our system. Bye!")
+    print("Thank you for using our system 🙋")
     clean_up()
     sys.exit(0)
 
@@ -174,6 +194,26 @@ def stdin_write(message, caster):
             return variable
         except ValueError:
             print("Wrong format. Try again!")
+
+def exit_menu():
+    if minikube:
+        while True:
+            print('''\nExiting.. Do you also want to close Minikube?
+            1.  ░█──░█ ░█▀▀▀ ░█▀▀▀█ 
+                ░█▄▄▄█ ░█▀▀▀ ─▀▀▀▄▄ 
+                ──░█── ░█▄▄▄ ░█▄▄▄█
+            2. ⁿᵒ 
+            ''')
+            
+            option = stdin_write("Choose an option: ", int)
+
+            if option==1:
+                exit()
+            elif option==2:
+                sys.exit(0)
+            else:
+                print("Invalid option. Try again!🤬")
+    sys.exit(0)    
 
 def config_menu():
     #ponga si cargar el template o el ultimo environment
@@ -200,7 +240,7 @@ def prueba():
 def server_menu():
     server_yaml = config_menu()
     switch = {
-        0 : exit,
+        0 : exit_menu,
         1 : start_minikube,
         2 : create_miner,
         3 : remove_miner,
@@ -210,14 +250,15 @@ def server_menu():
     }
 
     while True:
-        print('''\nSelect an option:
+        print('''\n🧑‍💻 Awesome simple menu 🧑‍💻 
+        Select an option:
         1. Start Minikube Ethereum Cluster
         2. Add Miner
         3. Remove Miner
         4. Get pods
         5. Enable port forwarding
         6. Open EthStats
-        0. Shutdown Minikube 
+        0. Exit
         ''')
     
         option = stdin_write("Choose an option: ", int)
@@ -234,6 +275,7 @@ if __name__ == "__main__":
     try:
         server_menu()
         #prueba()
+        minikube = False
         
     except KeyboardInterrupt:
         print("Thank you for using our system. Bye!")
