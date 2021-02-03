@@ -1,4 +1,5 @@
 from web3 import Web3, HTTPProvider
+from web3.middleware import geth_poa_middleware
 
 SERVER_HOST = 'http://localhost:8545'
 web3_socket = Web3(HTTPProvider(SERVER_HOST))
