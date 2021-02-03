@@ -41,6 +41,8 @@ def start_minikube(server_yaml):
     if minikube:
         print("🤦‍♀️ Minikube is already running 🤦‍♂️")
     else:
+        if not os.path.exists('yaml'):
+            os.makedirs('yaml')
         os.system("minikube start --cpus 4 --memory 4096 --kubernetes-version v1.14.2 --driver=docker")
         os.system("minikube kubectl -- get pods -A")
         write_environment(server_yaml)
