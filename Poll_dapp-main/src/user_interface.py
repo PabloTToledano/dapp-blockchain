@@ -121,12 +121,15 @@ def poll_menu(poll):
         option = stdin_write("Choose an option: ", int)
         function = switch.get(option, None)
         if function == None:
-            print("Invalid option. Try again!")
+            print("Invalid option. Try again! 	(〜￣△￣)〜")
             continue
         elif option == 0:
             function()
         else:
-            function(poll)
+            try:
+                function(poll)
+            except Exception as e:
+                print('(ノಠ益ಠ)ノ彡┻━┻ Invalid operation')
     
 
 def interact_with_poll():

@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+#####################################################################
+#Created by Blockchain IT,
+#If you need Fullstack, Blockchain or DevOps services
+#contact us on info@blockchain-it.hr
+#Happy hacking ;)
+#Edi
+#####################################################################
 
 require 'yaml'
 require 'erb'

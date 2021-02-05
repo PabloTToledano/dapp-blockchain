@@ -43,6 +43,8 @@ def start_minikube(server_yaml):
     else:
         if not os.path.exists('yaml'):
             os.makedirs('yaml')
+        if not os.path.exists('yamlDel'):
+            os.makedirs('yamlDel')
         os.system("minikube start --cpus 4 --memory 4096 --kubernetes-version v1.14.2 --driver=docker")
         os.system("minikube kubectl -- get pods -A")
         write_environment(server_yaml)
@@ -62,14 +64,37 @@ def get_pods():
     else:
         print("🙎🏻‍♀️ Start Minikube first 🙎🏻‍♂️")
 
-def forward_ports():
+def forward_ports_menu(server_yaml):
+    if minikube:
+        n_miners = get_n_miner(server_yaml)
+        while True:
+            print(f'''\nSelect miner,from 1 to {n_miners} ''')
+            option = stdin_write("Choose an option: ", int)
+
+            if option<=n_miners and option > 0:
+                forward_ports(option)
+                break
+            else:
+                print("Invalid option. Try again!🤬")
+    else:
+        print("🤦‍♀️ Minikube is not running 🤦‍♂️")
+
+def forward_ports(n_miner):
     global minikube
+    global PORT_FORWARD
+
     if minikube:
         PORT_FORWARD = [subprocess.Popen(["kubectl", "port-forward", "monitor-0", "3001:3001"],stdout=subprocess.DEVNULL),
-        subprocess.Popen(["kubectl", "port-forward", "geth-miner01-0", "8545:8545"],stdout=subprocess.DEVNULL)]
+        subprocess.Popen(["kubectl", "port-forward", f"geth-miner0{n_miner}-0", "8545:8545"],stdout=subprocess.DEVNULL)]
         print("🤭 Forwarding Done")
     else:
         print("🙎🏻‍♀️ Start Minikube first 🙎🏻‍♂️")
+
+def close_port():
+    global PORT_FORWARD
+    PORT_FORWARD[0].kill()
+    PORT_FORWARD[1].kill()
+    print("(×﹏×) Forwarding closed")
 
 def apply_yamls():
     os.system("kubectl apply -f yaml/")
@@ -104,6 +129,9 @@ def indent_keystore(keystore_path):
     file.write('\n')
     file.close()
     
+def get_n_miner(server_yaml):
+    return int(list(server_yaml["nodes"][-1].keys())[0][5:])
+
 
 def create_eth_account():
     cmd = shlex.split(f'geth account new --keystore=./keystore --password password')
@@ -246,8 +274,9 @@ def server_menu():
         2 : create_miner,
         3 : remove_miner,
         4 : get_pods, 
-        5 : forward_ports,
-        6 : open_ethstats,
+        5 : forward_ports_menu,
+        6 : close_port,
+        7 : open_ethstats,
     }
 
     while True:
@@ -258,16 +287,17 @@ def server_menu():
         3. Remove Miner
         4. Get pods
         5. Enable port forwarding
-        6. Open EthStats
+        6. Disable port forwarding
+        7. Open EthStats
         0. Exit
         ''')
     
         option = stdin_write("Choose an option: ", int)
         function = switch.get(option, None)
         if function == None:
-            print("Invalid option. Try again!🤬")
+            print("Invalid option. Try again!🤬 	(〜￣△￣)〜")
             continue
-        elif option in range(1,4):
+        elif option in range(1,4) or option == 5:
             function(server_yaml)
         else:
             function()
@@ -279,9 +309,9 @@ if __name__ == "__main__":
         minikube = False
         
     except KeyboardInterrupt:
-        print("Thank you for using our system. Bye!")
+        print("Thank you for using our system. 	･ﾟ･(｡>ω<｡)･ﾟ･ Bye!")
         exit()
     except Exception as e:
         print(e) 
-        print("System error. Closing!")
+        print("(ノಠ益ಠ)ノ彡┻━┻ System error. Closing!")
 
