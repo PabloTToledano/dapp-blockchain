@@ -127,7 +127,6 @@ def remove_miner(server_yaml):
 
     #Añadimos solo el node del miner a eliminar
     cpy_server_yaml['nodes'] =[ n_miner]
-    print(server_yaml['keystore'])
     #Eliminamos todas las keystore que no pertenezcan al miner a eliminar
     for key_store in server_yaml['keystore']['items']:
         if key_store!=eth_etherbase:

@@ -100,11 +100,11 @@ geth:
     verbosity: 3
     epoch: 30000
     nonce: "0x0"
-    timestamp: "0x5cdec502"
-    gasLimit: "9000000000000"
-    targetgaslimit: '9000000000000'
-    gasFloor: "0x82F79CD9000"
-    gasCeil: "0x82F79CD9000"
+    timestamp: "0x601d757b"
+    gasLimit: "0x47b760"
+    targetgaslimit: '0x47b760'
+    gasFloor: "0x47b760"
+    gasCeil: "0x47b760"
     gasPrice: "0x0"
     difficulty: "0x1"
     # public (true|false) is it a public network?
