@@ -26,7 +26,7 @@ $ python3 server.py
 Poll DApp may be ran through:
 
 ```sh
-$ python3 -m src.user_interface.py
+$ python3 -m src.user_interface
 ```
 
 ## Requirements
@@ -36,7 +36,7 @@ To execute the DApp the following software must be installed:
 * [Kubectl]
 * [Solidity] v0.5.16
 
-Other requirements are specify in [Poll-dapp/requirements.txt]
+Other requirements are specified in [Poll-dapp/requirements.txt]
 
 ### Default accounts:
  - 0xC11Ba4c7C24f70e7A581C7DAA92EAc108099aCEC
