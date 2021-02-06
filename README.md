@@ -36,7 +36,7 @@ To execute the DApp the following software must be installed:
 * [Kubectl]
 * [Solidity] v0.5.16
 
-Other requirements are specified in [Poll-dapp/requirements.txt]
+Other requirements are specified in [Poll-dapp-requirements.txt]
 
 ### Default accounts:
  - 0xC11Ba4c7C24f70e7A581C7DAA92EAc108099aCEC
@@ -55,7 +55,7 @@ Other requirements are specified in [Poll-dapp/requirements.txt]
 
    
    [ethereum-poa-clique-kubernetes-template]: <https://github.com/blockchain-it-hr/ethererum-poa-clique-kubernetes-template>
-   [Poll-dapp/requirements.txt]: <https://github.com/PabloTToledano/dapp-blockchain/blob/main/Poll_dapp-main/requirements.txtt>
+   [Poll-dapp-requirements.txt]: <https://github.com/PabloTToledano/dapp-blockchain/blob/main/Poll_dapp-main/requirements.txtt>
    [Docker]: <https://www.docker.com/>
    [Kubernetes]: <https://kubernetes.io/es/>
    [kubectl]: <https://kubernetes.io/es/docs/tasks/tools/install-kubectl/>
